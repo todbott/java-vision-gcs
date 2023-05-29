@@ -5,15 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b32cfef1-61de-4e4e-b101-37de8be6fdc8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Utils/CsvMaker.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Utils/DatabaseService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Utils/DetectTextGcs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Utils/DetectTextGcs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Models/Stats.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Utils/CsvMaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Utils/CsvMaker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Utils/GcsConnector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Utils/GcsConnector.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/java_vision_gcp/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/java_vision_gcp/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/stats.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +30,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2QMYMgZARdjzEYYvNrFjzmYoEZm" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -46,12 +50,12 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "jdk.selected.JAVA_MODULE": "20",
-    "last_opened_file_path": "/home/todbott/Downloads/postgresql-42.6.0.jar",
+    "last_opened_file_path": "/home/todbott/Documents/mlops/.gitignore",
     "onboarding.tips.debug.path": "/home/todbott/Documents/java_vision_gcp/src/main/java/org/java_vision_gcp/Main.java",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.26367188",
     "project.structure.side.proportion": "0.52528733",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices"
+    "settings.editor.selected.configurable": "configurable.group.build"
   }
 }]]></component>
   <component name="RunManager">

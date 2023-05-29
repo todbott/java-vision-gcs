@@ -11,6 +11,7 @@ target/
 *.iws
 *.iml
 *.ipr
+.idea/
 
 ### Eclipse ###
 .apt_generated
@@ -36,5 +37,3 @@ build/
 
 ### Mac OS ###
 .DS_Store
-
-agxactly-app-backend-2802f81a43ad.json

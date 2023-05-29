@@ -1,0 +1,1 @@
+gcloud functions deploy java-vision-gcp --entry-point org.java_vision_gcp.Main --runtime java17 --trigger-http --memory 512MB --set-env-vars DB_USERNAME=  ,DB_PASSWORD=  

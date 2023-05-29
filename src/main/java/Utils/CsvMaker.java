@@ -1,15 +1,15 @@
 package Utils;
 
-import Models.Stats;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.Month;
 
 public class CsvMaker {
 
     private String RawString;
+    private DatabaseService Dbs;
 
-    public void CsvMaker(String rawString) {
-        this.RawString = rawString;
+    public CsvMaker(String fullGifText) {
+        this.RawString = fullGifText;
+        this.Dbs = new DatabaseService();
     }
 
     // This is the content we receive in this class, as an example:
@@ -41,32 +41,28 @@ public class CsvMaker {
     //    December 5, 2022
     //    based on VisaJourney Member Data
 
-    public String getI30() {
-
-
-
-        // Read current content of stats.json from GCP into Stats object
-        ObjectMapper om = new ObjectMapper();
-        try {
-            Stats stats = om.readValue("fo", Stats.class);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-
+    public void getI30() {
 
         // Add newest stats
-        for (String line : RawString.split(System.lineSeparator())) {
-            if (line.indexOf("I-130") > -1) {
+        int backward = 1;
+        String[] lines = RawString.split(System.lineSeparator());
+        for (int x = 1; x < lines.length; x++) {
+
+            if ((lines[x-backward].contains("I-130")) && (lines[x].contains(":"))) {
+
+                String center = lines[x].split(": ")[0];
+                String monthDayYear = lines[x].split(": ")[1].replace(".", "");
+                String month = monthDayYear.split(" ")[0];
+                Integer monthAsInteger = Month.valueOf(month.toUpperCase()).getValue();
+                String day = monthDayYear.split(", ")[0].split(" ")[1];
+                String year = monthDayYear.split(" ")[2];
+                String date = year + "-" + monthAsInteger.toString() + "-" + day;
+                this.Dbs.addToDatabase(center, date);
+
+                backward += 1;
 
             }
         }
-
-
-        // resave stat.json in gcs
-
-
-
-        return "fo";
-
+        this.Dbs.closeConnection();
     }
 }
