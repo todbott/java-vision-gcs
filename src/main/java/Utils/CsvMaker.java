@@ -46,7 +46,10 @@ public class CsvMaker {
         // Add newest stats
         int backward = 1;
         String[] lines = RawString.split(System.lineSeparator());
+        int safetyCatch = 0;
         for (int x = 1; x < lines.length; x++) {
+
+            safetyCatch += 1;
 
             if ((lines[x-backward].contains("I-130")) && (lines[x].contains(":"))) {
 
@@ -61,6 +64,10 @@ public class CsvMaker {
 
                 backward += 1;
 
+            }
+
+            if (safetyCatch > 100) {
+                break;
             }
         }
         this.Dbs.closeConnection();

@@ -3,6 +3,8 @@ package Utils;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 public class DatabaseService {
@@ -28,11 +30,16 @@ public class DatabaseService {
 
     public void addToDatabase(String center, String currentlyHandling) {
 
-        String sql = "INSERT INTO uscis_stats (center, currently_handling) VALUES (?, ?)";
+        LocalDate dateObj = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String date = dateObj.format(formatter);
+
+        String sql = "INSERT INTO uscis_stats (read_at, center, currently_handling) VALUES (?, ?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(sql);) {
 
-            pstmt.setString(1, center);
-            pstmt.setDate(2, Date.valueOf(currentlyHandling));
+            pstmt.setDate(1, Date.valueOf(date));
+            pstmt.setString(2, center);
+            pstmt.setDate(3, Date.valueOf(currentlyHandling));
             pstmt.executeUpdate();  // Execute the query
 
         } catch (SQLException e) {
