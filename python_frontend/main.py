@@ -93,6 +93,7 @@ app.layout = dbc.Container([
 
     html.Br(),
     html.Div([
+        html.Div("When did you submit your paperwork?"),
 
         dcc.DatePickerSingle(
             id='submission_date',
@@ -110,7 +111,15 @@ app.layout = dbc.Container([
                 dbc.Col([
                         dcc.Graph(id='progress_scatter', figure={}),
                 ],
-                width=6)
+                width=12)
+            ]
+        ),
+        dbc.Row(
+            [
+                dbc.Col([
+                        html.Div(id="progress_summary", children=[])
+                ],
+                width=12)
             ]
         )
     ]),
@@ -121,7 +130,7 @@ app.layout = dbc.Container([
 # ------------------------------------------------------------------------------
 # Connect the Plotly graphs with Dash Components
 @app.callback(
-    Output(component_id='progress_scatter', component_property='figure'),
+    [Output(component_id='progress_scatter', component_property='figure'), Output(component_id="progress_summary", component_property="children")],
     [Input(component_id='slct_ss', component_property='value'), Input(component_id='submission_date', component_property='date')]
 )
 def update_graph(center, submission_date):
@@ -148,35 +157,65 @@ def update_graph(center, submission_date):
             range_x=range_x,
             range_y=range_y,
             trendline='ols',
-            title=f"progress at {list(filtered_df['name'].values)[0]}"
+            title=f"Progress at {list(filtered_df['name'].values)[0]}"
         )
 
-        scatter_trend_fig.update_xaxes(tickangle=45,
-                 tickmode = 'array',
-                 tickvals = [x for x in range(0, range_x[1])],
-                 ticktext = [pd.to_datetime(str(d)).strftime("%Y-%m-%d") for d in range_x_dates]
-        )
-
-        tt = [pd.to_datetime(str(d)).strftime("%Y-%m-%d") for d in range_y_dates]
-        tt.reverse()
-
-        scatter_trend_fig.update_yaxes(
-                tickmode = 'array',
-                tickvals = [x for x in range(0, range_y[1])],
-                ticktext = tt
-        )
         summary = px.get_trendline_results(scatter_trend_fig).iloc[0]["px_fit_results"].summary()
         results_as_html = summary.tables[1].as_html()
         v = pd.read_html(results_as_html, header=0, index_col=0)[0]
         constant = v['coef']['const']
         x1 = v['coef']['x1']
 
-        print(constant)
-        print(x1)
+        x_intercept=(0-constant)/x1
+        y_intercept = constant
+        print(x_intercept)
+        print(y_intercept)
 
         
-        return scatter_trend_fig
-    return dash.no_update
+
+        scatter_trend_fig.update_layout(
+            shapes = [{'type': 'line',
+                        'y0': y_intercept, 
+                        'y1': 0, 
+                        'x0': 0, 
+                        'x1': x_intercept,
+                        'line' : {
+                            'color': 'Grey',
+                            'dash': 'dash',
+                            },
+                        'label': {
+                            'text': 'Trend line'
+                            }
+                }])
+
+        ramfxr_dt = filtered_df['read_at'].max() + timedelta(days=int(x_intercept) + 5)
+        range_x = [0, ( ramfxr_dt - datetime.datetime(2023, 5, 30, 0, 0, 0)).days]
+        range_x_dates = pd.date_range(datetime.datetime(2023, 5, 30, 0, 0, 0), periods=range_x[1]).tolist()
+
+        scatter_trend_fig.update_layout(
+            xaxis_title="Date of most recent data", 
+            yaxis_title="Currently processing"
+        )
+
+        scatter_trend_fig.update_xaxes(tickangle=45,
+                 range=range_x,
+                 tickmode = 'array',
+                 tickvals = [x for x in range(0, range_x[1])][1::5],
+                 ticktext = [pd.to_datetime(str(d)).strftime("%Y-%m-%d") for d in range_x_dates][1::5],
+        )
+
+        tt = [pd.to_datetime(str(d)).strftime("%Y-%m-%d") for d in range_y_dates][1::5]
+        tt.reverse()
+
+        scatter_trend_fig.update_yaxes(
+                tickmode = 'array',
+                tickvals = [x for x in range(0, range_y[1])][1::5],
+                ticktext = tt,
+        )
+        
+        progress_summary = f'Based on data from May 30th 2023 to the present, the {list(filtered_df["name"].values)[0]} will probably start processing your paperwork on {[pd.to_datetime(str(d)).strftime("%Y-%m-%d") for d in range_x_dates][int(x_intercept)]}'
+        return scatter_trend_fig, progress_summary
+    return dash.no_update, dash.no_update
     
 
 # -------------------------- MAIN ---------------------------- #
