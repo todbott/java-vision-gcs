@@ -39,3 +39,4 @@ build/
 .DS_Store
 
 python_frontend/.env
+python_frontend/app.yaml

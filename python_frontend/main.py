@@ -2,22 +2,20 @@ import psycopg2
 import pandas as pd
 import dash
 from dash.dependencies import Input, Output
-from dash import dcc, html, dash_table
+from dash import dcc, html
 import pandas as pd
 import plotly.express as px
 import dash_bootstrap_components as dbc
 import datetime
 from datetime import date, timedelta
-from dateutil import parser
+import os
 
-import sklearn.metrics as metrics
-
-import numpy as np
-
-from os import environ as env, name
 from dotenv import load_dotenv
 
 load_dotenv()
+
+
+
 
 for_dropdown = []
 
@@ -31,7 +29,7 @@ centers = {
 
 #establishing the connection
 conn = psycopg2.connect(
-   database="postgres", user=env['DB_USERNAME'], password=env['DB_PASSWORD'], host='35.222.180.129'
+   database="postgres", user=os.getenv('DB_USERNAME'), password=os.getenv('DB_PASSWORD'), host='35.222.180.129'
 )
 #Creating a cursor object using the cursor() method
 cursor = conn.cursor()
@@ -81,7 +79,7 @@ app.layout = dbc.Container([
                                     
                                     options=[{'label':center, 'value':center} for center in centers_for_dropdown],
                                     multi=False,
-                                    value=centers_for_dropdown[0]
+                                    value=centers_for_dropdown[2]
                                     ),
                 ],
                 width=12)
@@ -100,7 +98,7 @@ app.layout = dbc.Container([
             min_date_allowed=date(2020, 1, 1),
             max_date_allowed=date(2025, 1, 1),
             initial_visible_month=date(2022, 5, 5),
-            date=date(2022, 8, 10)
+            date=date(2022, 6, 14)
         )
     ]),
 
